@@ -1,0 +1,109 @@
+﻿@model SiempreSeCaeElSistema.Models.Employee
+
+@{
+    ViewData["Title"] = "Detalles Empleado";
+}
+
+<div style="margin: 0 auto;">
+    <h2>Detalles Empleado</h2>
+    <h4>@Model.NombreCompleto</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            Nombre(s)
+        </dt>
+        <dd class="col-sm-10">
+            @Model.EmpName
+        </dd>
+        <dt class="col-sm-2">
+            Apellido(s)
+        </dt>
+        <dd class="col-sm-10">
+            @Model.EmpLastName
+        </dd>
+        <dt class="col-sm-2">
+            Género
+        </dt>
+        <dd class="col-sm-10">
+            @{
+                if (Model.EmpGender.ToString() == "M")
+                {
+                    <span>Masculino</span>
+                }
+                else if (Model.EmpGender.ToString() == "F")
+                {
+                    <span>Femenino</span>
+                }
+                else
+                {
+                    <span>Otro</span>
+                }
+            }
+        </dd>
+        <dt class="col-sm-2">
+            Dirección
+        </dt>
+        <dd class="col-sm-10">
+            @Model.EmpHomeAdrs
+        </dd>
+        <dt class="col-sm-2">
+            Número de Teléfono
+        </dt>
+        <dd class="col-sm-10">
+            @Model.EmpPhoneNumber
+        </dd>
+        <dt class="col-sm-2">
+            Correo Electrónico
+        </dt>
+        <dd class="col-sm-10">
+            @Model.EmpEmail
+        </dd>
+        <dt class="col-sm-2">
+            Fecha de Nacimiento
+        </dt>
+        <dd class="col-sm-10">
+            @Model.EmpBirthdate
+        </dd>
+        <dt class="col-sm-2">
+            Fecha de Contrato
+        </dt>
+        <dd class="col-sm-10">
+            @Model.EmpHireDate
+        </dd>
+        <dt class="col-sm-2">
+            Fecha Modificación
+        </dt>
+        <dd class="col-sm-10">
+            @if (Model.EmpModifiedDate == null)
+            {
+                <span>No ha sido modificado</span>
+            }
+            else
+            {
+                <span>@Model.EmpModifiedDate</span>
+            }
+        </dd>
+        <dt class="col-sm-2">
+            Cédula
+        </dt>
+        <dd class="col-sm-10">
+            @Model.EmpCardID
+        </dd>
+        <dt class="col-sm-2">
+            Salario
+        </dt>
+        <dd class="col-sm-10">
+            @Model.EmpSalary
+        </dd>
+        <dt class="col-sm-2">
+            Posición/Tipo de Empleado
+        </dt>
+        <dd class="col-sm-10">
+            @Model.EmpType
+        </dd>
+    </dl>
+    <div class="text-left offset-sm-1" style="width:100%;">
+        <a asp-action="Index">Volver atrás</a>
+    </div>
+</div>
+

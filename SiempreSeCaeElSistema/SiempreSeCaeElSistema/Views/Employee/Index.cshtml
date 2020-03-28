@@ -1,0 +1,71 @@
+﻿@model IEnumerable<SiempreSeCaeElSistema.Models.Employee>
+
+@{
+    ViewData["Title"] = "Empleados";
+}
+
+<h1>Empleados</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Nombre Completo
+            </th>
+            <th>
+                Género
+            </th>
+            <th>
+                Dirección
+            </th>
+            <th>
+                Cédula
+            </th>
+            <th>
+                Posición
+            </th>
+            <th>
+                <a href="~/empleado/agregar" class="btn btn-outline-success">Agregar Nuevo</a>
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @item.NombreCompleto
+            </td>
+            <td>
+                @{
+                    if (item.EmpGender.ToString() == "M")
+                    {
+                        <span>Masculino</span>
+                    }
+                    else if (item.EmpGender.ToString() == "F")
+                    {
+                        <span>Femenino</span>
+                    }
+                    else
+                    {
+                        <span>Otro</span>
+                    }
+                }
+            </td>
+            <td>
+                @item.EmpHomeAdrs
+            </td>
+            <td>
+                @item.EmpCardID
+            </td>
+            <td>
+                @item.EmpType
+            </td>
+            <td>
+                <a href="~/empleado/info/@item.EmpID" class="btn btn-outline-info">Más Info</a>
+                <a href="~/empleado/editar/@item.EmpID" class="btn btn-outline-warning">Editar</a>
+                <a href="~/empleado/eliminar/@item.EmpID" class="btn btn-outline-danger">Borrar</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

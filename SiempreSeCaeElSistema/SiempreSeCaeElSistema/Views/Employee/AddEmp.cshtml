@@ -1,0 +1,86 @@
+﻿@model SiempreSeCaeElSistema.Models.Employee
+
+@{
+    ViewData["Title"] = "Agregando Empleado";
+}
+
+<h1>Agregar Empleado</h1>
+
+<hr />
+<div class="row">
+    <div class="col-md-6" style="margin:0 auto;">
+        <form action="~/empleado/agregar/" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <sbc-row-frm class="row">
+                <sbc-col-frm-lft class="col col-md-6 form-group">
+                    <label asp-for="EmpName" class="control-label">Nombre(s)</label>
+                    <input asp-for="EmpName" class="form-control" />
+                    <span asp-validation-for="EmpName" class="text-danger"></span>
+                </sbc-col-frm-lft>
+                <sbc-col-frm-rgth class="col col-md-6 form-group">
+                    <label asp-for="EmpLastName" class="control-label">Apellido(s)</label>
+                    <input asp-for="EmpLastName" class="form-control" />
+                    <span asp-validation-for="EmpLastName" class="text-danger"></span>
+                </sbc-col-frm-rgth>
+            </sbc-row-frm>
+            <sbc-row-frm class="row">
+                <sbc-col-frm-lft class="col col-md-6 form-group">
+                    <label asp-for="EmpGender" class="control-label">Género</label>
+                    <select asp-for="EmpGender" class="form-control">
+                        <option value="">Seleccione un género</option>
+                        <option value="M">Masculino</option>
+                        <option value="F">Femenino</option>
+                        <option value="O">Otro</option>
+                    </select>
+                    <span asp-validation-for="EmpGender" class="text-danger"></span>
+                </sbc-col-frm-lft>
+                <sbc-col-frm-rgth class="col col-md-6 form-group">
+                    <label asp-for="EmpPhoneNumber" class="control-label">Número de Teléfono</label>
+                    <input asp-for="EmpPhoneNumber" class="form-control" />
+                    <span asp-validation-for="EmpPhoneNumber" class="text-danger"></span>
+                </sbc-col-frm-rgth>
+            </sbc-row-frm>
+            <div class="form-group">
+                <label asp-for="EmpHomeAdrs" class="control-label">Dirección</label>
+                <input asp-for="EmpHomeAdrs" class="form-control" />
+                <span asp-validation-for="EmpHomeAdrs" class="text-danger"></span>
+            </div>
+            <sbc-row-frm class="row">
+                <sbc-col-frm-lft class="col col-md-6 form-group">
+                    <label asp-for="EmpEmail" class="control-label">Correo Electrónico</label>
+                    <input asp-for="EmpEmail" class="form-control" />
+                    <span asp-validation-for="EmpEmail" class="text-danger"></span>
+                </sbc-col-frm-lft>
+                <sbc-col-frm-rgth class="col col-md-6 form-group">
+                    <label asp-for="EmpBirthdate" class="control-label">Fecha de Nacimiento</label>
+                    <input asp-for="EmpBirthdate" type="date" class="form-control" />
+                    <span asp-validation-for="EmpBirthdate" class="text-danger"></span>
+                </sbc-col-frm-rgth>
+            </sbc-row-frm>
+            <div class="form-group">
+                <label asp-for="EmpCardID" class="control-label">Cédula</label>
+                <input asp-for="EmpCardID" class="form-control" />
+                <span asp-validation-for="EmpCardID" class="text-danger"></span>
+            </div>
+            <div class="row" style="max-width:100%;margin:0;">
+                <div class="col col-md-6 form-group" style="padding:0;">
+                    <label asp-for="EmpSalary" class="control-label">Salario/Sueldo</label>
+                    <input asp-for="EmpSalary" class="form-control" />
+                    <span asp-validation-for="EmpSalary" class="text-danger"></span>
+                </div>
+                <div class="col col-md-6 form-group" style="padding:0;padding-left:10px;">
+                    <label asp-for="EmpType" class="control-label">Posición/Tipo</label>
+                    <input asp-for="EmpType" class="form-control" />
+                    <span asp-validation-for="EmpType" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Agregar Empleado" style="width:100%;" class="btn btn-outline-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
