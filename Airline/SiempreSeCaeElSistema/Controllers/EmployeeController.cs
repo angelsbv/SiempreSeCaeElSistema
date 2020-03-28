@@ -11,17 +11,17 @@ namespace SiempreSeCaeElSistema.Controllers
 {
     public class EmployeeController : Controller
     {
-        private readonly AirlineContext _context;
+        readonly AirlineContext ctx;
 
         public EmployeeController(AirlineContext context)
         {
-            _context = context;
+            ctx = context;
         }
 
         [Route("empleados"),Route("empleados/index")]
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Employees.ToListAsync());
+            return View(await ctx.Employees.ToListAsync());
         }
         
         [Route("empleado/info/{id}")]
@@ -32,14 +32,14 @@ namespace SiempreSeCaeElSistema.Controllers
                 return NotFound();
             }
 
-            var employee = await _context.Employees
+            var emp = await ctx.Employees
                 .FirstOrDefaultAsync(m => m.EmpID == id);
-            if (employee == null)
+            if (emp == null)
             {
                 return NotFound();
             }
 
-            return View(employee);
+            return View(emp);
         }
         [Route("empleado/agregar")]
         public IActionResult AddEmp()
@@ -50,16 +50,16 @@ namespace SiempreSeCaeElSistema.Controllers
         [Route("empleado/agregar")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> AddEmp([Bind("EmpID,EmpName,EmpLastName,EmpGender,EmpHomeAdrs,EmpPhoneNumber,EmpEmail,EmpBirthdate,EmpHireDate,EmpModifiedDate,EmpCardID,EmpSalary,EmpType")] Employee employee)
+        public async Task<IActionResult> AddEmp([Bind("EmpID,EmpName,EmpLastName,EmpGender,EmpHomeAdrs,EmpPhoneNumber,EmpEmail,EmpBirthdate,EmpHireDate,EmpModifiedDate,EmpCardID,EmpSalary,EmpType")] Employee emp)
         {
             if (ModelState.IsValid)
             {
-                employee.EmpHireDate = DateTime.Now;
-                _context.Add(employee);
-                await _context.SaveChangesAsync();
+                emp.EmpHireDate = DateTime.Now;
+                ctx.Add(emp);
+                await ctx.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(employee);
+            return View(emp);
         }
 
         [Route("empleado/editar/{id}")]
@@ -71,19 +71,19 @@ namespace SiempreSeCaeElSistema.Controllers
                 return NotFound();
             }
 
-            var employee = await _context.Employees.FindAsync(id);
-            if (employee == null)
+            var emp = await ctx.Employees.FindAsync(id);
+            if (emp == null)
             {
                 return NotFound();
             }
-            return View(employee);
+            return View(emp);
         }
         [Route("empleado/editar/{id}")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> EditEmp(int id, [Bind("EmpID,EmpName,EmpLastName,EmpGender,EmpHomeAdrs,EmpPhoneNumber,EmpEmail,EmpBirthdate,EmpHireDate,EmpModifiedDate,EmpCardID,EmpSalary,EmpType")] Employee employee)
+        public async Task<IActionResult> EditEmp(int id, [Bind("EmpID,EmpName,EmpLastName,EmpGender,EmpHomeAdrs,EmpPhoneNumber,EmpEmail,EmpBirthdate,EmpHireDate,EmpModifiedDate,EmpCardID,EmpSalary,EmpType")] Employee emp)
         {
-            if (id != employee.EmpID)
+            if (id != emp.EmpID)
             {
                 return NotFound();
             }
@@ -92,13 +92,13 @@ namespace SiempreSeCaeElSistema.Controllers
             {
                 try
                 {
-                    employee.EmpModifiedDate = DateTime.Now;
-                    _context.Update(employee);
-                    await _context.SaveChangesAsync();
+                    emp.EmpModifiedDate = DateTime.Now;
+                    ctx.Update(emp);
+                    await ctx.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!EmployeeExists(employee.EmpID))
+                    if (!EmpExists(emp.EmpID))
                     {
                         return NotFound();
                     }
@@ -109,7 +109,7 @@ namespace SiempreSeCaeElSistema.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(employee);
+            return View(emp);
         }
         [Route("empleado/eliminar/{id}")]
         public async Task<IActionResult> DeleteEmp(int? id)
@@ -119,29 +119,29 @@ namespace SiempreSeCaeElSistema.Controllers
                 return NotFound();
             }
 
-            var employee = await _context.Employees
+            var emp = await ctx.Employees
                 .FirstOrDefaultAsync(m => m.EmpID == id);
-            if (employee == null)
+            if (emp == null)
             {
                 return NotFound();
             }
 
-            return View(employee);
+            return View(emp);
         }
         [Route("empleado/eliminar/{id}")]
         [HttpPost, ActionName("DeleteEmp")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> SBCDeleteEmp(int id)
         {
-            var employee = await _context.Employees.FindAsync(id);
-            _context.Employees.Remove(employee);
-            await _context.SaveChangesAsync();
+            var emp = await ctx.Employees.FindAsync(id);
+            ctx.Employees.Remove(emp);
+            await ctx.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool EmployeeExists(int id)
+        private bool EmpExists(int id)
         {
-            return _context.Employees.Any(e => e.EmpID == id);
+            return ctx.Employees.Any(e => e.EmpID == id);
         }
     }
 }
