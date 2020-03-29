@@ -1,0 +1,66 @@
+﻿@model SiempreSeCaeElSistema.Models.FlightAssignedTo
+
+@{
+    ViewData["Title"] = "Asignando Vuelo";
+}
+
+<h1>Asignar Vuelo</h1>
+<h4>Empleado: @ViewBag.EmpNombreCompleto</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form  id="form"><!--action="~/empleado/asignar/ViewBag.EmpID" method="post"-->
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input name="EmpID" value="@ViewBag.EmpID" type="hidden" />
+            @if ((ViewBag.FlgID as SelectList).Count() > 0)
+            {
+                <div class="form-group">
+                    <label asp-for="FlgID" class="control-label">Número de Vuelo</label>
+                    <select asp-for="FlgID" class="form-control" asp-items="ViewBag.FlgID"></select>
+                    <a href="~/vuelos/" target="_blank">Más información sobre los vuelos y sus números.</a>
+                </div>
+            }
+            else
+            {
+                <div class="alert alert-danger text-center" style="width:30%; margin:0 auto; padding:5px;">
+                    <strong>
+                        Actualmente no existen vuelos registrados, intente
+                        <a href="~/aviones/agregar">registrar uno</a> y vuelva a intentarlo.
+                    </strong>
+                </div>
+            }
+            <div class="form-group">
+                <input type="submit" value="Asignar Vuelo" class="btn btn-outline-primary" style="width:100%;" />
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script>
+        $('#form').submit(function (e) {
+            e.preventDefault();
+            const EmpID = document.getElementsByName('EmpID')[0].value;
+            const SelFlgID = document.getElementsByName('FlgID')[0]
+            const FlgID = SelFlgID.options[SelFlgID.options.selectedIndex].value;
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("AssignFlg")',
+                data:
+                {
+                    FlgID: FlgID,
+                    EmpID: EmpID
+                },
+                success: () => {
+                    window.opener.location.reload();
+                    window.close();
+                },
+                error: () => {
+                    console.log(error);
+                }
+            });
+            
+        });
+    </script>
+}

@@ -1,0 +1,73 @@
+﻿@model IEnumerable<SiempreSeCaeElSistema.Models.Aircraft>
+
+@{
+    ViewData["Title"] = "Aeronaves Registradas";
+}
+
+@if (Model.Count() == 0)
+{
+    <div class="alert alert-danger text-center" style="max-width:600px; margin:0 auto;box-shadow: 0 0 0.2rem 0 #000000;">
+        <h3>
+            <strong>
+                Actualmente no existen aeronaves registradas, intente <a href="~/aviones/agregar">registrar una</a>.
+            </strong>
+        </h3>
+    </div>
+}
+else
+{
+    <h1>Aviones</h1>
+    <table class="table table-responsive-lg">
+        <thead>
+            <tr>
+                <th>
+                    Modelo
+                </th>
+                <th>
+                    Tipo
+                </th>
+                <th>
+                    Capacidad
+                </th>
+                <th>
+                    Fecha de Registro
+                </th>
+                <th>
+                    Fecha de Modificación
+                </th>
+                <th>
+                    <a href="~/aviones/agregar" class="btn btn-outline-success">Agregar Nuevo</a>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @item.AcModel
+                    </td>
+                    <td>
+                        @item.AcType
+                    </td>
+                    <td>
+                        @item.AcCapacity
+                    </td>
+                    <td>
+                        @item.AcRegisterDate
+                    </td>
+                    <td>
+                        @if(item.AcModifiedDate == null)
+                        {<span>No ha sido modificado.</span>}
+                        else 
+                        { <span>@item.AcModifiedDate</span> }
+                    </td>
+                    <td>
+                        <a href="~/aviones/editar/@item.AcID" class="btn btn-outline-warning">Editar</a>
+                        <a href="~/aviones/eliminar/@item.AcID" class="btn btn-outline-danger">Eliminar</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

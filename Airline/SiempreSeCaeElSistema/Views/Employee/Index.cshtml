@@ -4,68 +4,138 @@
     ViewData["Title"] = "Empleados";
 }
 
-<h1>Empleados</h1>
-
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                Nombre Completo
-            </th>
-            <th>
-                Género
-            </th>
-            <th>
-                Dirección
-            </th>
-            <th>
-                Cédula
-            </th>
-            <th>
-                Posición
-            </th>
-            <th>
-                <a href="~/empleado/agregar" class="btn btn-outline-success">Agregar Nuevo</a>
-            </th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @item.NombreCompleto
-            </td>
-            <td>
-                @{
-                    if (item.EmpGender.ToString() == "M")
-                    {
-                        <span>Masculino</span>
+@if (Model.Count() > 0)
+{
+    <h1>Empleados</h1>
+    <table class="table table-responsive-lg">
+        <thead>
+            <tr>
+                <th>
+                    Nombre Completo
+                </th>
+                <th>
+                    Género
+                </th>
+                <th>
+                    Dirección
+                </th>
+                <th>
+                    Cédula
+                </th>
+                <th>
+                    Posición
+                </th>
+                <th>
+                    Vuelos Asignados
+                </th>
+                <th>
+                    <a href="~/empleado/agregar" class="btn btn-outline-success">Agregar Nuevo</a>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+    @foreach (var item in Model)
+    {
+            <tr>
+                <td>
+                    @item.NombreCompleto
+                </td>
+                <td>
+                    @{
+                        if (item.EmpGender.ToString() == "M")
+                        {
+                            <span>Masculino</span>
+                        }
+                        else if (item.EmpGender.ToString() == "F")
+                        {
+                            <span>Femenino</span>
+                        }
+                        else
+                        {
+                            <span>Otro</span>
+                        }
                     }
-                    else if (item.EmpGender.ToString() == "F")
+                </td>
+                <td>
+                    @item.EmpHomeAdrs
+                </td>
+                <td>
+                    @item.EmpCardID
+                </td>
+                <td>
+                    @item.EmpType
+                </td>
+                <td>
+                    @if (item.FlightsAssigned.Count() != 0)
                     {
-                        <span>Femenino</span>
+                        <select class="form-control">
+                            @foreach (var i in item.FlightsAssigned)
+                            {
+                                <option>@i.FlgID</option>
+                            }
+                        </select>
+                        <a href="#" onclick="
+                                        popupCenter({
+                                            url: 'empleado/asignaciones/@item.EmpID',
+                                            title: 'Vuelos Asignados',
+                                            w: 500,
+                                            h: 500
+                                        });">Más información</a>
                     }
                     else
                     {
-                        <span>Otro</span>
+                        <span>No tiene vuelos asignados.</span>
                     }
-                }
-            </td>
-            <td>
-                @item.EmpHomeAdrs
-            </td>
-            <td>
-                @item.EmpCardID
-            </td>
-            <td>
-                @item.EmpType
-            </td>
-            <td>
-                <a href="~/empleado/info/@item.EmpID" class="btn btn-outline-info">Más Info</a>
-                <a href="~/empleado/editar/@item.EmpID" class="btn btn-outline-warning">Editar</a>
-                <a href="~/empleado/eliminar/@item.EmpID" class="btn btn-outline-danger">Borrar</a>
-            </td>
-        </tr>
+                </td>
+                <td>
+                    <a href="#" onclick="popupCenter({
+                                        url: 'empleado/asignar/@item.EmpID',
+                                        title: 'Más información',
+                                        w: 500,
+                                        h: 500
+                                        });" class="btn btn-outline-primary">Asignar Vuelo</a>
+                    <a href="~/empleado/info/@item.EmpID" class="btn btn-outline-info">Más Info</a>
+                    <a href="~/empleado/editar/@item.EmpID" class="btn btn-outline-warning">Editar</a>
+                    <a href="~/empleado/eliminar/@item.EmpID" class="btn btn-outline-danger" style="margin-top:3px;">Borrar</a>
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+ }
+ else
+ { 
+    <div class="alert alert-danger text-center" style="max-width:600px; margin:0 auto;box-shadow: 0 0 0.2rem 0 #000000;">
+    <h3>
+        <strong>
+            Actualmente no existen empleados, intente <a href="~/empleado/agregar">agregar uno</a>.
+        </strong>
+    </h3>
+    </div>           
+ }
+
+<script>
+    'use strict';
+    const popupCenter = ({url, title, w, h}) => {
+    const dualScreenLeft = window.screenLeft !==  undefined ? window.screenLeft : window.screenX;
+    const dualScreenTop = window.screenTop !==  undefined   ? window.screenTop  : window.screenY;
+
+    const width = window.innerWidth ? window.innerWidth : document.documentElement.clientWidth ? document.documentElement.clientWidth : screen.width;
+    const height = window.innerHeight ? window.innerHeight : document.documentElement.clientHeight ? document.documentElement.clientHeight : screen.height;
+
+    const systemZoom = width / window.screen.availWidth;
+    const left = (width - w) / 2 / systemZoom + dualScreenLeft
+    const top = (height - h) / 2 / systemZoom + dualScreenTop
+    const newWindow = window.open(url, title, 
+      `
+      scrollbars=yes,
+      width=${w / systemZoom}, 
+      height=${h / systemZoom}, 
+      top=${top}, 
+      left=${left}
+      `
+    )
+
+    if (window.focus) newWindow.focus();
 }
-    </tbody>
-</table>
+</script>

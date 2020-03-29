@@ -1,0 +1,71 @@
+﻿@model IEnumerable<SiempreSeCaeElSistema.Models.FlightAssignedTo>
+
+@{
+    ViewData["Title"] = "Vuelos Asignados";
+}
+
+<h1>Información Vuelos Asignados</h1>
+<h4>Empleado: @ViewBag.EmpNombreCompleto</h4>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Número de Vuelo
+            </th>
+            <th>
+                <a href="~/vuelos/" target="_blank">Más información sobre los vuelos</a>
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @item.FlgID
+            </td>
+            <td>
+                
+            </td>
+            <td>
+                <a href="~/empleado/delassign/@item.FlgEmpID" style="color:darkred;" class="del">X</a>
+                <input id="FlgEmpID" value="@item.FlgEmpID" hidden readonly />
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+<script>
+    document.querySelectorAll(".del")
+        .forEach((t) => {
+            t.addEventListener("click", (e) => {
+                if (!confirm('¿Seguro que desea eliminar esta asignación?'))
+                {
+                    e.preventDefault();
+                }
+                else
+                {
+                    const FlgEmpID = document.querySelector("#FlgEmpID").value;
+                    $.ajax({
+                        type: 'GET',
+                        url: '@Url.Action("delassign")',
+                        data: { id: FlgEmpID },
+                        success: () => {
+                            //oka
+                        },
+                        error: () => {
+                            console.log(error);
+                        }
+                    })
+                }
+            });
+        });
+    document.querySelector('nav').setAttribute("hidden", "hidden");
+
+    window.addEventListener("unload", () =>
+    {
+        window.opener.location.reload();
+        window.close();
+    })
+
+</script>

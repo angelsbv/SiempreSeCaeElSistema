@@ -21,7 +21,7 @@ namespace SiempreSeCaeElSistema.Controllers
         [Route("empleados"),Route("empleados/index")]
         public async Task<IActionResult> Index()
         {
-            return View(await ctx.Employees.ToListAsync());
+            return View(await ctx.Employees.Include(r => r.FlightsAssigned).ToListAsync());
         }
         
         [Route("empleado/info/{id}")]
@@ -98,7 +98,7 @@ namespace SiempreSeCaeElSistema.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!EmpExists(emp.EmpID))
+                    if (!ctx.Employees.Any(e => e.EmpID == emp.EmpID))
                     {
                         return NotFound();
                     }
@@ -139,9 +139,72 @@ namespace SiempreSeCaeElSistema.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        private bool EmpExists(int id)
+        [Route("empleado/asignar/{id}")]
+        [HttpGet]
+        public async Task<IActionResult> AssignFlg(int id)
         {
-            return ctx.Employees.Any(e => e.EmpID == id);
+            ViewData["FlgID"] = new SelectList(ctx.Flights, "FlgID", "FlgID");
+            var emp = await ctx.Employees.FindAsync(id);
+            ViewBag.EmpNombreCompleto = emp.NombreCompleto;
+            ViewBag.EmpID = emp.EmpID;
+            return View();
         }
+
+        [Route("empleado/asignar/{FlgID}")]
+        [HttpPost]
+        public async Task<IActionResult> AssignFlg(int FlgID, [Bind("FlgID, EmpID")] FlightAssignedTo FlgEmp)
+        {
+            
+            if (ModelState.IsValid)
+            {
+
+                //ModelState.AddModelError("one", "Este empleado ya tiene este vuelo asignado.");
+                //ViewData["FlgID"] = new SelectList(ctx.Flights, "FlgID", "FlgID");
+                //var emp = await ctx.Employees.FindAsync(FlgEmp.EmpID);
+                //ViewBag.EmpNombreCompleto = emp.NombreCompleto;
+                //ViewBag.EmpID = emp.EmpID;
+
+                ctx.FlightAssignedEmps.Add(FlgEmp);
+                await ctx.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+
+            return View();
+        }
+
+        [Route("empleado/asignaciones/{id}")]
+        [HttpGet]
+        public async Task<IActionResult> EmpFlgTbl(int id)
+        {
+            
+            var flgEmp = from i in ctx.FlightAssignedEmps
+                        where i.EmpID == id
+                        select i;
+
+            var emp = await ctx.Employees
+                .FindAsync(id);
+            if (flgEmp == null)
+            {
+                return RedirectToAction(nameof(Index));
+            }
+            ViewBag.EmpNombreCompleto = emp.NombreCompleto;
+            return View(await flgEmp.ToListAsync());
+        }
+
+        [Route("empleado/delassign/{id}")]
+        [HttpGet]
+        public async Task<IActionResult> DelEmpFlg(int id)
+        {
+            var flgEmp = await ctx.FlightAssignedEmps.FindAsync(id);
+
+            if(flgEmp == null)
+            {
+                return RedirectToAction(nameof(Index));
+            }
+            ctx.FlightAssignedEmps.Remove(flgEmp);
+            await ctx.SaveChangesAsync();
+            return RedirectToAction(nameof(EmpFlgTbl), new { id = flgEmp.EmpID });
+        }
+
     }
 }

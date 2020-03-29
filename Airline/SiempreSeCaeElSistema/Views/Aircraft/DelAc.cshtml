@@ -1,0 +1,48 @@
+﻿@model SiempreSeCaeElSistema.Models.Aircraft
+
+@{
+    ViewData["Title"] = "Eliminando Aeronave";
+}
+
+<h1>Eliminar Aeronave</h1>
+<div>
+    <h4>@Model.AcModel</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            Modelo
+        </dt>
+        <dd class="col-sm-10">
+            @Model.AcModel
+        </dd>
+        <dt class = "col-sm-2">
+            Tipo
+        </dt>
+        <dd class = "col-sm-10">
+            @Model.AcType
+        </dd>
+        <dt class = "col-sm-2">
+            Capacidad
+        </dt>
+        <dd class = "col-sm-10">
+            @Model.AcCapacity
+        </dd>
+        <dt class = "col-sm-2">
+            Fecha de Registro
+        </dt>
+        <dd class = "col-sm-10">
+            @Model.AcRegisterDate
+        </dd>
+        <dt class = "col-sm-2">
+            Fecha Modificación
+        </dt>
+        <dd class = "col-sm-10">
+            @Model.AcModifiedDate
+        </dd>
+    </dl>
+    
+    <form action="~/aviones/eliminar/@Model.AcID" method="post" style="width:100%;">
+        <input type="hidden" asp-for="AcID" />
+        <input type="submit" value="Eliminar" class="btn btn-outline-danger" style="width:27%;"/>
+    </form>
+</div>

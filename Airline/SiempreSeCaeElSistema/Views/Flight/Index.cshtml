@@ -1,0 +1,76 @@
+﻿@model IEnumerable<SiempreSeCaeElSistema.Models.Flight>
+
+@{
+    ViewData["Title"] = "Vuelos";
+}
+
+@if (Model.Count() > 0)
+{
+    <h1>Vuelos Registrados</h1>
+    <table class="table table-responsive-lg">
+        <thead>
+            <tr>
+                <th>
+                    Número de Vuelo
+                </th>
+                <th>
+                    Fecha de Partida
+                </th>
+                <th>
+                    Fecha de Llegada
+                </th>
+                <th>
+                    Tarifa del Vuelo
+                </th>
+                <th>
+                    Modelo de Aeronave
+                </th>
+                <th>
+                    Capacidad de Aeronave
+                </th>
+                <th>
+                    <a href="~/vuelos/agregar" class="btn btn-outline-success">Registrar Nuevo</a>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+            <tr>
+                <td>
+                    @item.FlgID
+                </td>
+                <td>
+                    @item.FlgDeparture
+                </td>
+                <td>
+                    @item.FlgArrival
+                </td>
+                <td>
+                    @item.FlgFare
+                </td>
+                <td>
+                    @item.aircraft.AcModel
+                </td>
+                <td>
+                    @item.aircraft.AcCapacity
+                </td>
+                <td>
+                    <a href="~/vuelos/editar/@item.FlgID" class="btn btn-outline-warning">Editar</a>
+                    <a href="~/vuelos/eliminar/@item.FlgID" class="btn btn-outline-danger">Eliminar</a>
+                </td>
+            </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <div class="alert alert-danger text-center" style="max-width:600px; margin:0 auto;box-shadow: 0 0 0.2rem 0 #000000;">
+        <h3>
+            <strong>
+                Actualmente no existen vuelos registrados, intente <a href="~/vuelos/agregar">agregar uno</a>.
+            </strong>
+        </h3>
+    </div>
+}

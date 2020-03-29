@@ -12,6 +12,10 @@ namespace SiempreSeCaeElSistema.Models
         [Key]
         public int AcID { get; set; } //Ac => Aircraft
 
+        [Column(TypeName = "varchar(30)")]
+        [Required(ErrorMessage = "Este campo es requerido.")]
+        public string AcModel { get; set; }
+
         [Column(TypeName = "varchar(45)")]
         [Required(ErrorMessage = "Este campo es requerido.")]
         public string AcType { get; set; }

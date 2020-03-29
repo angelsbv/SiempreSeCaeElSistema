@@ -18,8 +18,6 @@ namespace SiempreSeCaeElSistema.Models
 
         public DbSet<Flight> Flights { get; set; }
 
-        public DbSet<Route> Routes { get; set; }
-
         public DbSet<FlightAssignedTo> FlightAssignedEmps { get; set; }
     }
 }

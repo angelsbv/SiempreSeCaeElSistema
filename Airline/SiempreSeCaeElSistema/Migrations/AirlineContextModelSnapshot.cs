@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SiempreSeCaeElSistema.Models;
 
-namespace SiempreSeCaeElSistema.Migrations
+namespace Airline.Migrations
 {
     [DbContext(typeof(AirlineContext))]
     partial class AirlineContextModelSnapshot : ModelSnapshot
@@ -28,6 +28,10 @@ namespace SiempreSeCaeElSistema.Migrations
 
                     b.Property<int>("AcCapacity")
                         .HasColumnType("int");
+
+                    b.Property<string>("AcModel")
+                        .IsRequired()
+                        .HasColumnType("varchar(30)");
 
                     b.Property<DateTime?>("AcModifiedDate")
                         .HasColumnType("datetime");
@@ -119,14 +123,9 @@ namespace SiempreSeCaeElSistema.Migrations
                     b.Property<int>("FlgFare")
                         .HasColumnType("int");
 
-                    b.Property<int>("RouteID")
-                        .HasColumnType("int");
-
                     b.HasKey("FlgID");
 
                     b.HasIndex("AcID");
-
-                    b.HasIndex("RouteID");
 
                     b.ToTable("Flights");
                 });
@@ -153,37 +152,11 @@ namespace SiempreSeCaeElSistema.Migrations
                     b.ToTable("FlightAssignedEmps");
                 });
 
-            modelBuilder.Entity("SiempreSeCaeElSistema.Models.Route", b =>
-                {
-                    b.Property<int>("RtID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("RtAirport")
-                        .IsRequired()
-                        .HasColumnType("varchar(30)");
-
-                    b.Property<string>("RtDestination")
-                        .IsRequired()
-                        .HasColumnType("varchar(30)");
-
-                    b.HasKey("RtID");
-
-                    b.ToTable("Routes");
-                });
-
             modelBuilder.Entity("SiempreSeCaeElSistema.Models.Flight", b =>
                 {
                     b.HasOne("SiempreSeCaeElSistema.Models.Aircraft", "aircraft")
                         .WithMany()
                         .HasForeignKey("AcID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("SiempreSeCaeElSistema.Models.Route", "route")
-                        .WithMany()
-                        .HasForeignKey("RouteID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

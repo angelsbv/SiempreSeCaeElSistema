@@ -2,7 +2,18 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="text-center col" style="width:100%;margin: 0 auto;height:70vh;">
+    <h3 class="display-3">SiempreSeCaeElSistema</h3>
+    <h4 class="display-4">Airline</h4>
+    <textarea id="desc" class="form-control" style="width:100%;height:100%;max-width:400px;max-height:300px;margin:0 auto;" placeholder="Digite su descripción aquí."></textarea>
 </div>
+
+<script>
+    var desc = document.querySelector('#desc');
+    var lsItem = localStorage.getItem("sbcDesc");
+    if (lsItem != null)
+        desc.value = lsItem;
+    desc.addEventListener("blur", () => {
+        localStorage.setItem("sbcDesc", desc.value);
+    });
+</script>

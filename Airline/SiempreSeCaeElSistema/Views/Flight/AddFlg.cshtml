@@ -1,0 +1,53 @@
+﻿@model SiempreSeCaeElSistema.Models.Flight
+
+@{
+    ViewData["Title"] = "Registrando Vuelo";
+}
+
+@if ((ViewBag.AcID as SelectList).Count() == 0)
+{
+    <div class="alert alert-danger text-center" style="width:30%; margin:0 auto; padding:5px;">
+        <strong>
+            Actualmente no existen aeronaves registradas, intente
+            <a href="~/aviones/agregar">registrar una.</a>
+        </strong>
+    </div>
+}
+else
+{
+    <h1>Registrar Vuelo</h1>
+    <hr />
+    <div class="row">
+        <div class="col-md-6" style="margin:0 auto;">
+            <form action="~/vuelos/agregar" method="post">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="AcID" class="control-label">Aeronave</label>
+                    <select asp-for="AcID" class="form-control" asp-items="ViewBag.AcID"></select>
+                </div>
+                <div class="form-group">
+                    <label asp-for="FlgDeparture" class="control-label">Fecha de Partida</label>
+                    <input asp-for="FlgDeparture" class="form-control" />
+                    <span asp-validation-for="FlgDeparture" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="FlgArrival" class="control-label">Fecha de Llegada</label>
+                    <input asp-for="FlgArrival" class="form-control" />
+                    <span asp-validation-for="FlgArrival" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="FlgFare" class="control-label">Tarifa</label>
+                    <input asp-for="FlgFare" class="form-control" />
+                    <span asp-validation-for="FlgFare" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Registrar" class="btn btn-outline-primary" style="width:100%;" />
+                </div>
+            </form>
+        </div>
+    </div>
+}
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

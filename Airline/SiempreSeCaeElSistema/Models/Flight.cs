@@ -29,11 +29,5 @@ namespace SiempreSeCaeElSistema.Models
         [Required(ErrorMessage = "Este campo es requerido.")]
         public int FlgFare { get; set; }
 
-        public Route route { get; set; }
-        [ForeignKey("route")]
-        [Column(TypeName = "int")]
-        [Required(ErrorMessage = "Este campo es requerido.")]
-        public int RouteID { get; set; }
-
     }
 }

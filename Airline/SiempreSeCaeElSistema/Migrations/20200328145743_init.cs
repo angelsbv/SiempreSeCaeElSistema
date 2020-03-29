@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace SiempreSeCaeElSistema.Migrations
+namespace Airline.Migrations
 {
     public partial class init : Migration
     {
@@ -13,6 +13,7 @@ namespace SiempreSeCaeElSistema.Migrations
                 {
                     AcID = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    AcModel = table.Column<string>(type: "varchar(30)", nullable: false),
                     AcType = table.Column<string>(type: "varchar(45)", nullable: false),
                     AcCapacity = table.Column<int>(type: "int", nullable: false),
                     AcRegisterDate = table.Column<DateTime>(type: "datetime", nullable: false),
@@ -48,20 +49,6 @@ namespace SiempreSeCaeElSistema.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Routes",
-                columns: table => new
-                {
-                    RtID = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    RtAirport = table.Column<string>(type: "varchar(30)", nullable: false),
-                    RtDestination = table.Column<string>(type: "varchar(30)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Routes", x => x.RtID);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Flights",
                 columns: table => new
                 {
@@ -70,8 +57,7 @@ namespace SiempreSeCaeElSistema.Migrations
                     AcID = table.Column<int>(type: "int", nullable: false),
                     FlgDeparture = table.Column<DateTime>(type: "datetime", nullable: false),
                     FlgArrival = table.Column<DateTime>(type: "datetime", nullable: false),
-                    FlgFare = table.Column<int>(type: "int", nullable: false),
-                    RouteID = table.Column<int>(type: "int", nullable: false)
+                    FlgFare = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -81,12 +67,6 @@ namespace SiempreSeCaeElSistema.Migrations
                         column: x => x.AcID,
                         principalTable: "Aircrafts",
                         principalColumn: "AcID",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Flights_Routes_RouteID",
-                        column: x => x.RouteID,
-                        principalTable: "Routes",
-                        principalColumn: "RtID",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -130,11 +110,6 @@ namespace SiempreSeCaeElSistema.Migrations
                 name: "IX_Flights_AcID",
                 table: "Flights",
                 column: "AcID");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Flights_RouteID",
-                table: "Flights",
-                column: "RouteID");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -150,9 +125,6 @@ namespace SiempreSeCaeElSistema.Migrations
 
             migrationBuilder.DropTable(
                 name: "Aircrafts");
-
-            migrationBuilder.DropTable(
-                name: "Routes");
         }
     }
 }

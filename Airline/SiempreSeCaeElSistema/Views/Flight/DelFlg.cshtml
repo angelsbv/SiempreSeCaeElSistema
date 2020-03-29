@@ -1,0 +1,47 @@
+﻿@model SiempreSeCaeElSistema.Models.Flight
+
+@{
+    ViewData["Title"] = "Eliminando Vuelo";
+}
+
+<h1>Eliminar Vuelo</h1>
+<div>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            Fecha de Partida
+        </dt>
+        <dd class="col-sm-10">
+            @Model.FlgDeparture
+        </dd>
+        <dt class="col-sm-2">
+            Fecha de Llegada
+        </dt>
+        <dd class="col-sm-10">
+            @Model.FlgArrival
+        </dd>
+        <dt class="col-sm-2">
+            Tarifa del Vuelo
+        </dt>
+        <dd class="col-sm-10">
+            @Model.FlgFare
+        </dd>
+        <dt class="col-sm-2">
+            Modelo de Aeronave
+        </dt>
+        <dd class="col-sm-10">
+            @Model.aircraft.AcModel
+        </dd>
+        <dt class="col-sm-2">
+            Capacidad de Aeronave
+        </dt>
+        <dd class="col-sm-10">
+            @Model.aircraft.AcCapacity
+        </dd>
+    </dl>
+    
+    <form action="~/vuelos/eliminar/@Model.FlgID" method="post" style="width:100%;">
+        <input type="hidden" asp-for="FlgID" />
+        <input type="submit" value="Eliminar Vuelo" class="btn btn-outline-danger" style="width:27%;" />
+    </form>
+</div>
