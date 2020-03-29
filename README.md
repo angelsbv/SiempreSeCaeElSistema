@@ -1,5 +1,5 @@
 # SiempreSeCaeElSistema
-Aerolínea
+Airline
 
 Para usar correctamente debe configurar la base de datos y realizar los/las Migrations (Se entiende que tiene los paquetes NuGet requeridos instalados):
 
