@@ -1,12 +1,10 @@
 # SiempreSeCaeElSistema
 Aerolínea
 
-La aerolínea SiempreSeCaeElSistema requiere una solución para llevar el control se dicha localidad entiéndase aerolínea el sistema actual que tiene no está rindiendo correctamente y necesitan otra opción.
+Para usar correctamente debe configurar la base de datos y realizar los/las Migrations (Se entiende que tiene los paquetes NuGet requeridos instalados):
 
-La aplicación debe tener como mínimo en la primera versión los siguientes módulos:
+Para configurar ConnectionString (Texto para conectar con la BD y todo lo relacionado). appsettings.json => "ConnectionStrings"; Aquí puede crear un nuevo ConnectionString o bien puede editar el ya creado con la configuración de su servidor.
 
-1-      Registrar cada uno de los aviones de dicha aerolínea.
+Realizar los/las Migrations. Tools => NuGet Package Manager => Package Manager Console; Ya en la consola debe escribir: Add-Migration "NombreMigration" Con esto agregaremos el/la Migration a nuestro proyecto. Luego, debemos actualizar la base de datos a partir del Migration ya creado para ello escribimos: Update-Database
 
-2-      Registrar los empleados junto al tipo de empleado.
-
-3-      Registrar todos los vuelos planificados.
+Listo.
